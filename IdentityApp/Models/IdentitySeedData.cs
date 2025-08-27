@@ -6,32 +6,37 @@ namespace IdentityApp.Models
     public static class IdentitySeedData
     {
         private const string adminUser = "Admin";
-        private const string adminPassword = "admin123";
+        private const string adminPassword = "Admin_123";
 
-        public static async void IdentityTestUser(IApplicationBuilder app)
+    public static async Task IdentityTestUser(IApplicationBuilder app)
+    {
+    using var scope = app.ApplicationServices.CreateScope();
+
+    var context = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        await context.Database.MigrateAsync();
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    var user = await userManager.FindByNameAsync(adminUser);
+
+    if (user == null)
+    {
+        user = new IdentityUser
         {
-            var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IdentityContext>();
-
-            if (context.Database.GetAppliedMigrations().Any())
-            {
-                context.Database.Migrate();
-            }
-
-            var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-            var user = await userManager.FindByNameAsync(adminUser);
-
-            if (user == null)
-            {
-                user = new IdentityUser
-                {
-                    UserName = adminUser,
-                    Email = "berkayozcan@hotmail.com",
-                    PhoneNumber = "05535528438",
-                };
-                await userManager.CreateAsync(user, adminPassword);
-            }
+            UserName = adminUser,
+            Email = "berkayozcan@hotmail.com",
+            PhoneNumber = "05535528438",
+        };
+        var result = await userManager.CreateAsync(user, adminPassword);
+        if (!result.Succeeded)
+        {
+            throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
+    }
+}
 
     }
 }
