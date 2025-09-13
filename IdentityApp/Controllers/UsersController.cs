@@ -1,14 +1,14 @@
+using IdentityApp.Models;
 using IdentityApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace IdentityApp.Controllers
 {
     public class UsersController : Controller
     {
-        private UserManager<IdentityUser> _userMenager;
-        public UsersController(UserManager<IdentityUser> userManager)
+        private UserManager<AppUser> _userMenager;
+        public UsersController(UserManager<AppUser> userManager)
         {
             _userMenager = userManager;
         }
@@ -27,11 +27,11 @@ namespace IdentityApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var user = new AppUser
                 {
                     UserName = model.Username,
                     Email = model.Email,
-
+                    FullName = model.FullName
                 };
 
                 IdentityResult result = await _userMenager.CreateAsync(user, model.PassWord);

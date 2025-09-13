@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\OKG\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj": {}
+    "C:\\Users\\user\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\OKG\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj": {
+    "C:\\Users\\user\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\OKG\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj",
         "projectName": "IdentityApp",
-        "projectPath": "C:\\Users\\OKG\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj",
-        "packagesPath": "C:\\Users\\OKG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\OKG\\Desktop\\IdentityApp\\IdentityApp\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\IdentityApp\\IdentityApp\\IdentityApp.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\IdentityApp\\IdentityApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\OKG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -45,17 +45,17 @@
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.412/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.414/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
