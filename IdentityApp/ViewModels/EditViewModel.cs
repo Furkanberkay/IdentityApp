@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityApp.ViewModels
 {
@@ -16,7 +17,9 @@ namespace IdentityApp.ViewModels
         public string? PassWord { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare(nameof(PassWord), ErrorMessage ="Parolanız Eşleşmiyor")]
+        [Compare(nameof(PassWord), ErrorMessage = "Parolanız Eşleşmiyor")]
         public string? ConfirmPassWord { get; set; }
+        
+        public IList<string>? SelectedRoles { get; set; }
     }
 }
