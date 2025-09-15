@@ -2,19 +2,22 @@ using IdentityApp.Models;
 using IdentityApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Controllers
 {
     public class UsersController : Controller
     {
-        private UserManager<AppUser> _userMenager;
-        public UsersController(UserManager<AppUser> userManager)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
+        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            _userMenager = userManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult Index()
         {
-            return View(_userMenager.Users);
+            return View(_userManager.Users);
         }
 
         public IActionResult Create()
@@ -34,7 +37,7 @@ namespace IdentityApp.Controllers
                     FullName = model.FullName
                 };
 
-                IdentityResult result = await _userMenager.CreateAsync(user, model.PassWord);
+                IdentityResult result = await _userManager.CreateAsync(user, model.PassWord);
 
                 if (result.Succeeded)
                 {
@@ -56,7 +59,8 @@ namespace IdentityApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            var user = await _userMenager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
+            ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
 
             if (user != null)
             {
@@ -64,8 +68,9 @@ namespace IdentityApp.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email!,
-                    FullName = user.FullName,
+                    FullName = user.FullName!,
                     Username = user.UserName!,
+                    SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
             }
             return View();
@@ -80,19 +85,19 @@ namespace IdentityApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = await _userMenager.FindByIdAsync(model.Id);
+                var user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     user.FullName = model.FullName;
                     user.Email = model.Email;
                     user.UserName = model.Username;
 
-                    var result = await _userMenager.UpdateAsync(user);
+                    var result = await _userManager.UpdateAsync(user);
 
                     if (result.Succeeded && !string.IsNullOrEmpty(model.PassWord))
                     {
-                        await _userMenager.RemovePasswordAsync(user);
-                        await _userMenager.AddPasswordAsync(user, model.PassWord);
+                        await _userManager.RemovePasswordAsync(user);
+                        await _userManager.AddPasswordAsync(user, model.PassWord);
                     }
 
                     if (result.Succeeded)
@@ -117,11 +122,11 @@ namespace IdentityApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            var user = await _userMenager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
             if (user != null)
             {
-                await _userMenager.DeleteAsync(user);
+                await _userManager.DeleteAsync(user);
             }
             return RedirectToAction("Index");
         }
