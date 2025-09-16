@@ -18,9 +18,14 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
 
     options.User.RequireUniqueEmail = true;
+});
 
-
-
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login"; // login olmadıysa nereye gideceği
+    options.AccessDeniedPath = "/Account/AccessDenied";  // erişime izni yoksa nereye gideceği
+    options.ExpireTimeSpan = TimeSpan.FromDays(30); // cookie süresi ne zaman bitsin 
+    options.SlidingExpiration = true;  // kullanıcı tekrar giriş yaptığında süre başa dönsün mü?
 });
 
 var app = builder.Build();
